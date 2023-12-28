@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/css.css}">
+
+    <title>home</title>
+</head>
+
+<body>
+
+<header class="header">
+
+    <section class="flex">
+
+        <a th:href="@{/}" class="logo">BrainWeb</a>
+
+        <form th:action="@{/admin/search}" method="get" class="search-form">
+            <input type="text" name="term" placeholder="search courses...."
+                   required maxlength="100">
+            <button type="submit" class="fas fa-search"></button>
+        </form>
+        <div class="icons">
+
+            <div id="menu-btn" class="fas fa-bars"></div>
+            <div id="search-btn" class="fas fa-search"></div>
+            <div id="user-btn" class="fas fa-user"></div>
+
+        </div>
+
+        <div class="profile">
+
+            <img th:src="@{/images/pic-1.jpg}" alt="">
+            <h3>Username</h3>
+            <span>Student</span>
+            <a th:href="@{/user/update}" class="btn">Update Profile</a>
+
+            <a th:href="@{/logout}" class="delete-btn">logout</a>
+            <div class="flex-btn">
+                <a th:href="@{/login}" class="option-btn">login</a>
+                <a th:href="@{/register}" class="option-btn">register</a>
+            </div>
+        </div>
+
+    </section>
+
+</header>
+
+<div class="side-bar">
+
+    <div class="close-side-bar">
+        <i class="fas fa-times"></i>
+    </div>
+    <div class="logo">
+        <img th:src="@{/images/logo.png}">
+    </div>
+
+
+    <nav class="navbar">
+        <a th:href="@{/admin/dashboard}"><i class="fas fa-home"></i><span>home</span></a>
+        <a th:href="@{/admin/update/category}"><i class="fas fa-bars"></i><span>courses</span></a>
+    </nav>
+
+</div>
+
+<section class="user-table">
+
+    <table class="table table-striped"  style="width: 100%">
+
+        <thead>
+        <tr>
+
+            <th scope="col">User ID</th>
+            <th scope="col">User Image</th>
+            <th scope="col">User Name</th>
+            <th scope="col">User Email</th>
+            <th scope="col">User Status</th>
+            <th scope="col">User Role</th>
+            <th scope="col">User Status</th>
+            <th scope="col">Details</th>
+
+        </tr>
+        </thead>
+        <tbody th:each="u:${users}" th:if="${u.enable == true}" >
+        <tr>
+            <td th:text="${u.userId}"></td>
+            <td><img th:src="@{'data:image/jpeg;base64,'+ ${u.userImage}}" style="width: 100px; height: 100px;"/></td>
+            <td th:text="${u.userName}"></td>
+            <td th:text="${u.email}"></td>
+
+            <td th:switch="${u.enable}">
+                <p th:case="true">Enable</p>
+                <p th:case="false">Disable</p>
+            </td>
+
+            <td th:text="${u.role}"></td>
+            <td th:text="${u.status}"></td>
+
+            <td>
+                <a th:href="@{/admin/user/edit(id=${u.userId})}" class="btn btn-outline-success btn-lg active" role="button" aria-pressed="true">Edit</a>
+            </td>
+        </tr>
+
+        </tbody>
+
+        <tbody th:each="u:${users}" th:if="${u.enable == false}" >
+
+        <tr>
+            <td th:text="${u.userId}"></td>
+            <td><img th:src="@{'data:image/jpeg;base64,'+ ${u.userImage}}" style="width: 100px; height: 100px;"/></td>
+            <td th:text="${u.userName}"></td>
+            <td th:text="${u.email}"></td>
+
+            <td th:switch="${u.enable}">
+                <p th:case="true">Enable</p>
+                <p th:case="false">Disable</p>
+            </td>
+
+            <td th:text="${u.role}"></td>
+            <td>
+                <a th:href="@{/admin/user/edit(id=${u.userId})}" class="btn btn-outline-success btn-lg active" role="button" aria-pressed="true">Edit</a>
+            </td>
+            <td th:text="${u.status}"></td>
+        </tr>
+
+        </tbody>
+    </table>
+
+</section>
+
+
+<footer class="footer" style="float: bottom; position: fixed; left: 0; bottom: 0;">
+
+    &copy;  <span>Brainweb</span>
+
+</footer>
+
+<script th:src="@{/js/js.js}"></script>
+
+</body>
+</html>

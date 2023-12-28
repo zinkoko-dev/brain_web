@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/css.css}">
+
+    <title>update</title>
+</head>
+
+<body>
+
+<header class="header">
+
+    <section class="flex">
+
+        <a th:href="@{/admin/dashboard}" class="logo">BrainWeb</a>
+
+        <form action="" method="post" class="search-form">
+            <input type="text" name="search_box" placeholder="search courses...."
+                   required maxlength="100">
+            <button type="submit" class="fas fa-search" name="search_box"></button>
+        </form>
+
+        <div class="icons">
+
+            <div id="menu-btn" class="fas fa-bars"></div>
+            <div id="search-btn" class="fas fa-search"></div>
+            <div id="user-btn" class="fas fa-user"></div>
+
+        </div>
+
+        <div class="profile">
+
+            <img th:src="@{/images/pic-1.jpg}" alt="">
+            <h3>Username</h3>
+            <a th:href="@{/user/update}" class="btn">Update Profile</a>
+
+            <a th:href="@{/logout}" class="delete-btn" id="log">logout</a>
+
+            <div class="flex-btn">
+                <a th:href="@{/login}" class="option-btn">login</a>
+                <a th:href="@{/register}" class="option-btn">register</a>
+            </div>
+        </div>
+
+    </section>
+
+</header>
+
+<div class="side-bar">
+
+    <div class="close-side-bar">
+        <i class="fas fa-times"></i>
+    </div>
+
+    <div class="logo">
+        <img th:src="@{/images/logo.png}">
+    </div>
+
+
+    <nav class="navbar">
+        <a th:href="@{/admin/dashboard}"><i class="fas fa-home"></i><span>home</span></a>
+        <a th:href="@{/admin/update/category}"><i class="fas fa-bars"></i><span>courses</span></a>
+    </nav>
+
+</div>
+
+<section class="form-container" id="example">
+
+        <form th:action="@{/admin/user/edit(id=${u.userId})}" method="post" th:each="u:${edit}" enctype="multipart/form-data">
+
+            <h3>User Edit</h3>
+            <p>User Name<span>*</span></p>
+            <input type="text" class="box" id="username" name="userName" th:value="${u.userName}">
+
+            <!--<p>User Password<span>*</span></p>
+            <input type="password" class="box" id="password" name= "password" th:value="${u.password}">-->
+
+            <p>User Role<span>*</span></p>
+            <select name="role" class="box">
+                <option th:text="${u.role}"></option>
+                <option value="ADMIN">Admin</option>
+                <option value="USER">User</option>
+            </select>
+            <p>Status<span>*</span></p>
+            <select name="status" required class="box">
+                <option th:value="${u.status}" ></option>
+                <option value="Free">Free</option>
+                <option value="Premium">Premium</option>
+            </select>
+
+            <div class="flex-btn">
+
+                    <a th:href="@{/admin/user/disable(id=${u.userId})}"
+                       class="btn btn-outline-danger btn-lg active"
+                       role="button" aria-pressed="true">Disable</a>
+
+
+                    <a th:href="@{/admin/user/enable(id=${u.userId})}"
+                       class="btn btn-outline-success btn-lg active"
+                       role="button" aria-pressed="true">Enable</a>
+
+            </div>
+
+
+            <form>
+            <input class="option-btn" type="submit" value="update" >
+            </form>
+
+    </form>
+
+    </div>
+</section>
+
+
+<footer class="footer">
+
+    &copy; <span>Brainweb</span>
+
+</footer>
+
+<script th:src="@{/js/js.js}"></script>
+
+</body>
+</html>

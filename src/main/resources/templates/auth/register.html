@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/css.css}">
+
+    <title>register</title>
+
+</head>
+
+<body>
+
+<header class="header">
+
+    <section class="flex">
+
+        <a th:href="@{/}" class="logo">BrainWeb</a>
+
+        <form th:action="@{/course/search}" method="get" class="search-form">
+            <input type="text" name="term" placeholder="search courses...."
+                   required maxlength="100">
+            <button type="submit" class="fas fa-search"></button>
+        </form>
+
+        <div class="icons">
+
+            <div id="menu-btn" class="fas fa-bars"></div>
+            <div id="search-btn" class="fas fa-search"></div>
+            <div id="user-btn" class="fas fa-user"></div>
+
+        </div>
+
+        <div class="profile">
+
+            <div>
+                <img th:src="@{/images/pic-1.jpg}" alt="">
+            </div>
+
+            <!--<span sec:authorize="authenticated">
+                <h3 sec:authentication="principal.userName"></h3>
+            </span>-->
+
+            <!--<a sec:authorize="authenticated"
+               th:href="@{/user/edit(id=${#authentication.principal.userId})}"
+               class="btn">Edit Profile</a>-->
+
+            <a th:href="@{/logout}" class="delete-btn" id="log">logout</a>
+
+            <div class="flex-btn">
+                <a th:href="@{/login}" class="option-btn">login</a>
+                <a th:href="@{/register}" class="option-btn">register</a>
+            </div>
+        </div>
+
+    </section>
+
+</header>
+
+<div class="side-bar">
+
+    <div class="close-side-bar">
+        <i class="fas fa-times"></i>
+    </div>
+
+    <div class="logo">
+        <img th:src="@{/images/logo.png}">
+    </div>
+
+
+    <nav class="navbar">
+        <a th:href="@{/}"><i class="fas fa-home"></i><span>home</span></a>
+        <a th:href="@{/about}"><i class="fas fa-question"></i><span>about us</span></a>
+        <a th:href="@{/}"><i class="fas fa-graduation-cap"></i><span>courses</span></a>
+        <a th:href="@{/contact}"><i class="fas fa-headset"></i><span>contact us</span></a>
+    </nav>
+
+</div>
+
+<section class="form-container">
+
+    <form th:action="@{/register}" th:object="${register}" method="post" enctype="multipart/form-data">
+        <h3>new register</h3>
+        <p>your name <span>*</span></p>
+        <input type="text" name="userName" placeholder="enter your name" maxlength="50" required class="box">
+        <p>your email<span>*</span></p>
+        <input type="email" name="email" placeholder="enter your email" maxlength="50" required class="box">
+        <p>your password<span>*</span></p>
+        <input type="password" id="pass" name="password" placeholder="enter your password" maxlength="50" required class="box">
+        <p>confirm password<span>*</span></p>
+        <input type="password" id="confirm_pass" name="c_pass" onkeyup="validate_password()" placeholder="confirm your password" maxlength="50" required class="box">
+        <span class="wrongpass" id="wrong_pass_alert"></span>
+        <p>select pic</p>
+        <input type="file" name="image" accept="image/*" required class="box">
+
+        <form>
+            <input type="submit" onclick="wrong_pass_alert()" name="submit" value="register now" class="inline-btn">
+        </form>
+
+    </form>
+
+</section>
+
+<footer class="footer">
+
+    &copy; <span>Brainweb</span>
+
+</footer>
+
+<script th:src="@{/js/js.js}"></script>
+
+</body>
+</html>

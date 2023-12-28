@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/css.css}">
+
+    <title>home</title>
+    <style>
+        .dialog-box {
+            width: 200px;
+            height: 150px;
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #f1f1f1;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+
+    <section class="flex">
+
+        <a th:href="@{/}" class="logo">BrainWeb</a>
+
+        <form th:action="@{/course/search}" method="get" class="search-form">
+            <input type="text" name="term" placeholder="search courses...."
+                   required maxlength="100">
+            <button type="submit" class="fas fa-search"></button>
+        </form>
+        <div class="icons">
+
+            <div id="menu-btn" class="fas fa-bars"></div>
+            <div id="search-btn" class="fas fa-search"></div>
+            <div id="user-btn" class="fas fa-user"></div>
+
+        </div>
+
+        <div class="profile">
+
+            <div>
+                <img th:src="@{/images/pic-1.jpg}" alt="">
+            </div>
+
+            <span sec:authorize="authenticated">
+                <h3 sec:authentication="principal.userName"></h3>
+            </span>
+
+            <a sec:authorize="authenticated"
+               th:href="@{/user/edit(id=${#authentication.principal.userId})}"
+               class="btn">Edit Profile</a>
+
+            <a sec:authorize="authenticated" th:href="@{/logout}" class="delete-btn" id="log">logout</a>
+
+            <div class="flex-btn">
+                <a th:href="@{/login}" class="option-btn">login</a>
+                <a th:href="@{/register}" class="option-btn">register</a>
+            </div>
+        </div>
+
+    </section>
+
+</header>
+
+<div class="side-bar">
+
+    <div class="close-side-bar">
+        <i class="fas fa-times"></i>
+    </div>
+    <div class="logo">
+        <img th:src="@{/images/logo.png}">
+    </div>
+
+
+    <nav class="navbar">
+        <a th:href="@{/}"><i class="fas fa-home"></i><span>home</span></a>
+        <a th:href="@{/about}"><i class="fas fa-question"></i><span>about us</span></a>
+        <a th:href="@{/courses}"><i class="fas fa-graduation-cap"></i><span>courses</span></a>
+        <a href="contact.html"><i class="fas fa-headset"></i><span>contact us</span></a>
+    </nav>
+
+</div>
+
+
+<section class="videos-container">
+
+    <h1 class="heading">Search Result</h1>
+
+    <h1 class="heading">Free Courses</h1>
+    <div class="row">
+
+        <div class="box-container" th:each="c:${courses}" th:if="${c.coursePlan == 'Free'}">
+            <a class="box">
+                <h3 th:text="${c.courseName} + '(' + ${c.coursePlan} + ')'"></h3>
+
+                <a class="option-btn" target="_blank" th:href="${c.courseLink}">View Course</a>
+
+                <!--            <img th:src="@{'data:image/jpeg;base64,'+ ${c.courseImage}}" style="width: 100px; height: 100px;"/>                <h3>complete HTML tutorial(part 01)</h3>-->
+            </a>
+        </div>
+    </div>
+    <br>
+    <h1 class="heading">Premium Courses</h1>
+    <div class="row">
+        <div class="box-container" th:each="c:${courses}" th:if="${c.coursePlan == 'Premium'}" th:object="${user}">
+            <a class="box">
+                <h3 th:text="${c.courseName} + '(' + ${c.coursePlan} + ')'"></h3>
+                <a class="option-btn"  th:if="${c.coursePlan == 'Premium' and user.status == 'Premium'}" target="_blank" th:href="${c.courseLink}">View Course</a>
+                <a class="option-btn"  th:if="${c.coursePlan == 'Premium' and user.status != 'Premium'}" onclick="showDialog()">Subscribe Premium plan</a>
+            </a>
+        </div>
+    </div>
+
+    <div id="dialog" class="dialog-box">
+        <p>Subscribe Premium Plan</p>
+        <button onclick="redirectToSubscription()" class="option-btn" >Subscribe Premium</button>
+    </div>
+
+    <div id="overlay" class="overlay" onclick="hideDialog()"></div>
+</section>
+<script>
+
+    function redirectToSubscription() {
+        window.location.href = "/contact";
+    }
+
+    function showDialog() {
+        document.getElementById("dialog").style.display = "block";
+        document.getElementById("overlay").style.display = "block";
+    }
+
+    function hideDialog() {
+        document.getElementById("dialog").style.display = "none";
+        document.getElementById("overlay").style.display = "none";
+    }
+</script>
+
+
+
+
+<footer class="footer" style="float: bottom; position: fixed; left: 0; bottom: 0;">
+
+    &copy;  <span>Brainweb</span>
+
+</footer>
+
+<script th:src="@{/js/js.js}"></script>
+
+</body>
+</html>

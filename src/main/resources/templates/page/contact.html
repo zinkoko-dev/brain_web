@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/css.css}">
+
+
+    <title>contact form</title>
+</head>
+<body>
+<header class="header">
+
+    <section class="flex">
+
+        <a th:href="@{/}" class="logo">BrainWeb</a>
+
+        <form action="" method="post" class="search-form">
+            <input type="text" name="search_box" placeholder="search courses...."
+                   required maxlength="100">
+            <button type="submit" class="fas fa-search" name="search_box"></button>
+        </form>
+
+        <div class="icons">
+
+            <div id="menu-btn" class="fas fa-bars"></div>
+            <div id="search-btn" class="fas fa-search"></div>
+            <div id="user-btn" class="fas fa-user"></div>
+
+        </div>
+
+        <div class="profile">
+
+            <div>
+                <img th:src="@{/images/pic-1.jpg}" alt="">
+            </div>
+
+            <span sec:authorize="authenticated">
+                <h3 sec:authentication="principal.userName"></h3>
+            </span>
+
+            <a sec:authorize="authenticated"
+               th:href="@{/user/edit(id=${#authentication.principal.userId})}"
+               class="btn">Edit Profile</a>
+
+            <a sec:authorize="authenticated" th:href="@{/logout}" class="delete-btn" id="log">logout</a>
+
+            <div class="flex-btn">
+                <a th:href="@{/login}" class="option-btn">login</a>
+                <a th:href="@{/register}" class="option-btn">register</a>
+            </div>
+        </div>
+    </section>
+
+</header>
+
+<div class="side-bar">
+
+    <div class="close-side-bar">
+        <i class="fas fa-times"></i>
+    </div>
+
+    <div class="logo">
+        <img th:src="@{/images/logo.png}">
+    </div>
+
+
+    <nav class="navbar">
+        <a th:href="@{/}"><i class="fas fa-home"></i><span>home</span></a>
+        <a th:href="@{/about}"><i class="fas fa-question"></i><span>about us</span></a>
+        <a th:href="@{/}"><i class="fas fa-graduation-cap"></i><span>courses</span></a>
+        <a th:href="@{/contact}" id="contact"><i class="fas fa-headset"></i><span>contact us</span></a>
+    </nav>
+
+</div>
+
+<section class="contact">
+
+    <h1 class="heading">Contact Us</h1>
+
+    <div class="box-container">
+
+        <!--<div th:if="${param.message}" class="message">
+            <h4>Thank you for contact us. We'll get back to you shortly!!</h4>
+        </div>-->
+
+        <form th:action="@{/contact}" method="POST" class="formcarry-form" enctype="multipart/form-data">
+
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required  class="box"/>
+
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required class="box" />
+
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="subject" required  class="box"/>
+
+            <label for="content">Content</label>
+            <textarea name="content" id="content" required cols="30" rows="10" class="box" ></textarea>
+
+            <label for="attachment">Attachment</label>
+            <div class="col-sm-8">
+                <input type="file" name="attachment" id="attachment" class="box"/>
+            </div>
+
+            <button type="submit" class="inline-btn">Send</button>
+
+        </form>
+
+
+    </div>
+
+
+
+</section>
+
+
+<footer class="footer">
+
+    &copy;  <span>Brainweb</span>
+
+</footer>
+
+<script th:src="@{/js/js.js}"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

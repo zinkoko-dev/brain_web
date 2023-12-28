@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/admin-style.css}">
+
+    <title>add-playlist</title>
+</head>
+
+<body>
+
+
+<header class="header">
+
+    <section class="flex">
+
+        <a th:href="@{/admin/dashboard}" class="logo">BrainWeb</a>
+
+        <form th:action="@{/course/search}" method="get" class="search-form">
+            <input type="text" name="term" placeholder="search courses...."
+                   required maxlength="100">
+            <button type="submit" class="fas fa-search"></button>
+        </form>
+
+        <div class="icons">
+
+            <div id="menu-btn" class="fas fa-bars"></div>
+            <div id="search-btn" class="fas fa-search"></div>
+            <div id="user-btn" class="fas fa-user"></div>
+
+        </div>
+
+        <div class="profile">
+
+            <img th:src="@{/images/pic-1.jpg}" alt="">
+            <h3>Username</h3>
+            <span>Admin</span>
+            <a href="profile.html" class="btn">Update Profile</a>
+
+            <a th:href="@{/logout}" class="delete-btn">logout</a>
+
+            <div class="flex-btn">
+                <a th:href="@{/login}" class="option-btn">login</a>
+                <a th:href="@{/register}" class="option-btn">register</a>
+            </div>
+
+
+        </div>
+
+    </section>
+
+</header>
+
+<div class="side-bar">
+
+    <div class="close-side-bar">
+        <i class="fas fa-times"></i>
+    </div>
+    <div class="logo">
+        <img src="images/logo.png">
+    </div>
+
+
+    <nav class="navbar">
+        <a th:href="@{/admin/dashboard}"><i class="fas fa-home"></i><span>home</span></a>
+        <a th:href="@{/admin/update/category}"><i class="fas fa-bars"></i><span>courses</span></a>
+    </nav>
+
+</div>
+
+<section class="playlist-form">
+
+    <h1 class = "heading">Create New Course</h1>
+
+    <form th:action="@{/admin/directAdd/course}" method="POST"   enctype="multipart/form-data">
+
+        <input type = "text" name = "courseName" class = "box" placeholder="Enter Course Name"/>
+
+        <select  class="box" disabled >
+            <option th:each="c:${category}" th:value="${c.categoryName}" th:text="${c.categoryName}" selected></option>
+        </select>
+
+        <input name="category" th:object="${category}" th:value="${category.categoryName}" hidden>
+
+        <input type="url" name="courseLink" class="box" placeholder="Enter Course Link"/>
+
+        <select name="plan" required class="box">
+            <option value="Free">Free</option>
+            <option value="Premium">Premium</option>
+        </select>
+
+        <div class = "box-footer">
+            <button type="submit" class = "btn btn-primary">
+                Submit
+            </button>
+        </div>
+    </form>
+
+</section>
+
+<footer class="footer" style="float: bottom; position: fixed; left: 0; bottom: 0;">
+
+    &copy;  <span>Brainweb</span>
+
+</footer>
+
+<script th:src="@{/js/js.js}"></script>
+
+</body>
+</html>

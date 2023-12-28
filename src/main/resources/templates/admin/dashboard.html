@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/admin-style.css}">
+
+    <title>Admin Dashboard</title>
+</head>
+
+<body>
+
+<header class="header">
+
+    <section class="flex">
+
+        <a th:href="@{/admin/dashboard}" class="logo">BrainWeb</a>
+
+        <form th:action="@{/course/search}" method="get" class="search-form">
+            <input type="text" name="term" placeholder="search courses...."
+                   required maxlength="100">
+            <button type="submit" class="fas fa-search"></button>
+        </form>
+        <div class="icons">
+
+            <div id="menu-btn" class="fas fa-bars"></div>
+            <div id="search-btn" class="fas fa-search"></div>
+            <div id="user-btn" class="fas fa-user"></div>
+
+        </div>
+
+        <div class="profile">
+
+            <img th:src="@{/images/pic-1.jpg}" alt="">
+            <h3>Username</h3>
+            <span>Admin</span>
+            <a href="profile.html" class="btn">Update Profile</a>
+
+            <a th:href="@{/logout}" class="delete-btn">logout</a>
+
+            <div class="flex-btn">
+                <a th:href="@{/login}" class="option-btn">login</a>
+                <a th:href="@{/register}" class="option-btn">register</a>
+            </div>
+
+        </div>
+
+    </section>
+
+</header>
+
+<div class="side-bar">
+
+    <div class="close-side-bar">
+        <i class="fas fa-times"></i>
+    </div>
+    <div class="logo">
+        <img th:src="@{/images/logo.png}">
+    </div>
+
+    <nav class="navbar">
+        <a th:href="@{/admin/dashboard}"><i class="fas fa-home"></i><span>home</span></a>
+        <a th:href="@{/admin/update/category}"><i class="fas fa-bars"></i><span>courses</span></a>
+    </nav>
+
+</div>
+
+<section class="dashboard">
+
+    <h1 class="heading">dashboard</h1>
+
+    <div class="box-container">
+
+
+        <div class="box">
+            <p> <b style="color: black;">Users</b> </p>
+            <p>Total Users: <span th:text="${#lists.size(users)}" ></span></p>
+            <p>Disable Users: <span th:text="${#lists.size(users.?[enable == false])}"></span></p>
+            <a th:href="@{/admin/user/view}" class="btn">View</a>
+        </div>
+        <div class="box">
+            <h3><!--total contents--> </h3>
+            <p> <b style="color: black;">Courses</b> </p>
+            <p>Total Courses: <span th:text="${#lists.size(courses)}" ></span></p>
+            <p>Premium courses: <span th:text="${#lists.size(courses.?[coursePlan == 'Premium'])}"></span></p>
+            <a th:href="@{/admin/add/course}" class="btn">Add</a>
+        </div>
+        <div class="box">
+            <h3><!--total playlists--> </h3>
+            <p> <b style="color: black;">Categories</b> </p>
+            <p>Total Categories: <span th:text="${#lists.size(categories)}" ></span></p>
+            <a th:href="@{/admin/add/category}" class="btn">Add</a>
+            <a th:href="@{/admin/update/category}" class="delete-btn">View Categories</a>
+        </div>
+
+    </div>
+
+</section>
+
+<footer class="footer" style="float: bottom; position: fixed; left: 0; bottom: 0;">
+
+    &copy;  <span>Brainweb</span>
+
+</footer>
+
+<script th:src="@{/js/js.js}"></script>
+
+
+</body>
+</html>
